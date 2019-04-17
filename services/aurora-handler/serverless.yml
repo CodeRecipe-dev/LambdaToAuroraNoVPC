@@ -1,0 +1,95 @@
+##################################################################################
+# CodeRecipe - a marketplace for developers to grab ready to use cloud solutions #
+# More details at: <Recipe URL>                                                  #
+##################################################################################
+service: CodeRecipeSample-LambdaAurora
+provider:
+  name: aws
+  runtime: python2.7
+  region: us-east-1
+  stage: ${opt:stage}
+  dbUser: ${opt:dbUser}
+  apiKeys:
+    - ${opt:stage}-lambdaAurora
+  usagePlan:
+    quota:
+      limit: 5000
+      offset: 0
+      period: DAY
+    throttle:
+      burstLimit: 1
+      rateLimit: 1
+
+functions:
+  AuroraCRUD:
+    handler: handler.handle_aurora_crud
+    name: ${self:provider.stage}-AuroraCRUD
+    timeout: 10
+    environment:
+      Stage: ${self:provider.stage}
+      AwsSecretStoreArn: "#{RDSSecret}"
+      DatabaseName: "auroraDb"
+      DbClusterArn: "arn:aws:rds:${self:provider.region}:#{AWS::AccountId}:cluster:#{AuroraCrudDBCluster}"
+    events:
+      - http:
+          path: /db-interface
+          method: POST
+          cors: true
+          integration: lambda
+          private: true
+    iamRoleStatementsName: ${self:provider.stage}-AuroraCRUD-role
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "rds-data:ExecuteSql"
+        Resource: "arn:aws:rds:${self:provider.region}:#{AWS::AccountId}:cluster:#{AuroraCrudDBCluster}"
+      - Effect: "Allow"
+        Action:
+          - "secretsmanager:GetSecretValue"
+        Resource: "#{RDSSecret}"
+
+resources:
+  Resources:
+    AuroraCrudDBCluster:
+      Type: AWS::RDS::DBCluster
+      Properties:
+        DBClusterIdentifier: ${self:provider.stage}-auraracruddbcluster
+        MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref RDSSecret, ':SecretString:username}}' ]]
+        MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref RDSSecret, ':SecretString:password}}' ]]
+        DatabaseName: auroraDb
+        Engine: aurora
+        EngineMode: serverless
+        ScalingConfiguration:
+          AutoPause: true
+          MaxCapacity: 8
+          MinCapacity: 2
+          SecondsUntilAutoPause: 300
+    RDSSecret:
+      Type: AWS::SecretsManager::Secret
+      Properties:
+        Description: 'Secret for Orders RDS'
+        GenerateSecretString:
+          SecretStringTemplate: '{"username": "${self:provider.dbUser}"}'
+          GenerateStringKey: 'password'
+          PasswordLength: 16
+          ExcludeCharacters: '"@/\'
+    SecretRDSInstanceAttachment:
+      Type: AWS::SecretsManager::SecretTargetAttachment
+      Properties:
+        SecretId: !Ref RDSSecret
+        TargetId: !Ref AuroraCrudDBCluster
+        TargetType: AWS::RDS::DBCluster
+
+plugins:
+  - serverless-python-requirements
+  - serverless-pseudo-parameters
+  - serverless-iam-roles-per-function
+  - serverless-plugin-scripts
+
+custom:
+  scripts:
+    hooks:
+      'deploy:finalize': 'aws rds modify-db-cluster --db-cluster-identifier ${self:provider.stage}-auraracruddbcluster --enable-http-endpoint'
+  pythonRequirements:
+    noDeploy: []
+    dockerizePip: false

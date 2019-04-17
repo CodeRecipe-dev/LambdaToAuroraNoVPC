@@ -1,0 +1,131 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <title>AWS Lambda to AWS RDS without VPC</title>
+</head>
+<body>
+  <style>
+    .action-container {
+      margin-top: 2px;
+      border: 1px solid;
+      width: 35%;
+      padding: 5px;
+    }
+  </style>
+  <h1>AWS Lambda to AWS RDS without VPC</h1>
+  <div class="action-container">
+  <p><input type="text" id="1eventTypeInput" placeholder="" value="saveRecord" 
+    hidden
+    /></p>
+  <p><input type="text" id="1dataInput" placeholder="Input Value" value=""
+    /></p>
+    <p><button id="button1" data-url="https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface">
+      Create
+    </button></p>
+    <p id="result1"></p>
+
+  </div>
+  <div class="action-container">
+
+  <p><input type="text" id="2eventTypeInput" placeholder="" value="updateRecord" 
+    hidden
+    /></p>
+  <p><input type="text" id="2record_idInput" placeholder="Record ID" value="" 
+    /></p>
+  <p><input type="text" id="2dataInput" placeholder="Input Value" value=""
+    /></p>
+    <p><button id="button2" data-url="https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface">
+      Update
+    </button></p>
+    <p id="result2"></p>
+  </div>
+  <div class="action-container">
+
+    <p id="result3"></p>
+      <p><input type="text" id="0eventTypeInput" placeholder="" value="getRecords" 
+    hidden
+    /></p>
+    <p><button id="button0" data-url="https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface">
+      Get
+    </button></p>
+    <pre id="result0"></pre>
+
+  </div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#"+"button0").click(function(event){
+          var data = {}
+          data["eventType"] = $("#0eventTypeInput").val();
+          $.ajax({
+            type: "POST",
+            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: {
+              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+            },
+            success: function(data){
+              $("#result0").text(JSON.stringify(data, null, ' '))
+            }
+          })
+        })
+        $("#"+"button1").click(function(event){
+          var data = {}
+          data["eventType"] = $("#1eventTypeInput").val();
+          data["recordInfo"] = {
+            "data": $("#1dataInput").val()
+          }
+          $.ajax({
+            type: "POST",
+            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: {
+              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+            },
+            success: function(data){
+              $("#result1").html(JSON.stringify(data))
+            }
+          })
+        })
+        $("#"+"button2").click(function(event){
+          var data = {}
+          data["eventType"] = $("#2eventTypeInput").val();
+          data["recordInfo"] = {
+            "record_id": $("#2record_idInput").val(),
+            "data": $("#2dataInput").val()
+          }
+          $.ajax({
+            type: "POST",
+            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: {
+              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+            },
+            success: function(data){
+              $("#result2").html(JSON.stringify(data))
+            }
+          })
+        })
+        $("#"+"button3").click(function(event){
+          var data = {}
+          data["eventType"] = $("#3eventTypeInput").val();
+          data["record_id"] = $("#3record_idInput").val();
+          $.ajax({
+            type: "POST",
+            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            headers: {
+              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+            },
+            success: function(data){
+              $("#result3").html(JSON.stringify(data))
+            }
+          })
+        })
+      })
+    </script>
+  </body>
+</html>
