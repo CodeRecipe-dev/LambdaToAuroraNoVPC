@@ -14,6 +14,10 @@
   </style>
   <h1>AWS Lambda to AWS RDS without VPC</h1>
   <div class="action-container">
+   <p>Note:</p>
+   <p>The aurora serverless database for this demo is configured to auto pause after 5 minutes of inactivity which results in a timeout on the first transaction that’s made as it takes time for the rds to load.</p>
+  </div>
+  <div class="action-container">
   <p><input type="text" id="1eventTypeInput" placeholder="" value="saveRecord" 
     hidden
     /></p>
