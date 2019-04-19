@@ -14,16 +14,12 @@
   </style>
   <h1>AWS Lambda to AWS RDS without VPC</h1>
   <div class="action-container">
-   <p>Note:</p>
-   <p>The aurora serverless database for this demo is configured to auto pause after 5 minutes of inactivity which results in a timeout on the first transaction that’s made as it takes time for the rds to load.</p>
-  </div>
-  <div class="action-container">
   <p><input type="text" id="1eventTypeInput" placeholder="" value="saveRecord" 
     hidden
     /></p>
   <p><input type="text" id="1dataInput" placeholder="Input Value" value=""
     /></p>
-    <p><button id="button1" data-url="https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface">
+    <p><button id="button1" data-url="https://w3u594yy4i.execute-api.us-east-1.amazonaws.com/s/db-interface">
       Create
     </button></p>
     <p id="result1"></p>
@@ -38,7 +34,7 @@
     /></p>
   <p><input type="text" id="2dataInput" placeholder="Input Value" value=""
     /></p>
-    <p><button id="button2" data-url="https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface">
+    <p><button id="button2" data-url="https://w3u594yy4i.execute-api.us-east-1.amazonaws.com/s/db-interface">
       Update
     </button></p>
     <p id="result2"></p>
@@ -49,7 +45,7 @@
       <p><input type="text" id="0eventTypeInput" placeholder="" value="getRecords" 
     hidden
     /></p>
-    <p><button id="button0" data-url="https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface">
+    <p><button id="button0" data-url="https://w3u594yy4i.execute-api.us-east-1.amazonaws.com/s/db-interface">
       Get
     </button></p>
     <pre id="result0"></pre>
@@ -62,11 +58,11 @@
           data["eventType"] = $("#0eventTypeInput").val();
           $.ajax({
             type: "POST",
-            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            url: "https://w3u594yy4i.execute-api.us-east-1.amazonaws.com/s/db-interface",
             contentType: 'application/json',
             data: JSON.stringify(data),
             headers: {
-              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+              "x-api-key": "yP9fjdYNx45R39DGnWyTS2FRAEvli03A3DXmUaoz"
             },
             success: function(data){
               $("#result0").text(JSON.stringify(data, null, ' '))
@@ -81,11 +77,11 @@
           }
           $.ajax({
             type: "POST",
-            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            url: "https://w3u594yy4i.execute-api.us-east-1.amazonaws.com/s/db-interface",
             contentType: 'application/json',
             data: JSON.stringify(data),
             headers: {
-              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+              "x-api-key": "yP9fjdYNx45R39DGnWyTS2FRAEvli03A3DXmUaoz"
             },
             success: function(data){
               $("#result1").html(JSON.stringify(data))
@@ -101,11 +97,11 @@
           }
           $.ajax({
             type: "POST",
-            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            url: "https://w3u594yy4i.execute-api.us-east-1.amazonaws.com/s/db-interface",
             contentType: 'application/json',
             data: JSON.stringify(data),
             headers: {
-              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+              "x-api-key": "yP9fjdYNx45R39DGnWyTS2FRAEvli03A3DXmUaoz"
             },
             success: function(data){
               $("#result2").html(JSON.stringify(data))
@@ -118,11 +114,11 @@
           data["record_id"] = $("#3record_idInput").val();
           $.ajax({
             type: "POST",
-            url: "https://423d8yingl.execute-api.us-east-1.amazonaws.com/sample/db-interface",
+            url: "https://w3u594yy4i.execute-api.us-east-1.amazonaws.com/s/db-interface",
             contentType: 'application/json',
             data: JSON.stringify(data),
             headers: {
-              "x-api-key": "7XIaSPcpPO8M0spXPRyf21sJq99xup2n9yXzIoiE"
+              "x-api-key": "yP9fjdYNx45R39DGnWyTS2FRAEvli03A3DXmUaoz"
             },
             success: function(data){
               $("#result3").html(JSON.stringify(data))

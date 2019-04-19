@@ -60,10 +60,9 @@ resources:
         Engine: aurora
         EngineMode: serverless
         ScalingConfiguration:
-          AutoPause: true
+          AutoPause: false
           MaxCapacity: 8
           MinCapacity: 2
-          SecondsUntilAutoPause: 300
     RDSSecret:
       Type: AWS::SecretsManager::Secret
       Properties:

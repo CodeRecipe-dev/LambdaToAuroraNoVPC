@@ -33,15 +33,10 @@ Avoid performance issues caused by VPC configuration.
 
 One note about using the Data API is that the sql query being sent over is taken in as raw input and could potentially introduce SQL injection vulnerability. To avoid this, we have sanitized the inputs using mysql.escape.
 
-The aurora serverless database is currently configured to auto pause after 5 minutes of activity which results in a timeout on the first transaction that’s made as it takes time for the rds to load.
-
 ## Prerequisites
 npm install serverless-python-requirements
-
 npm install serverless-pseudo-parameters
-
 npm install serverless-iam-roles-per-function
-
 npm install serverless-plugin-scripts
 
 pip install -r requirements.txt
