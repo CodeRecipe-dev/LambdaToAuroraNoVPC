@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "serverless-iam-roles-per-function": "^2.0.0",
+    "serverless-plugin-scripts": "^1.0.2",
+    "serverless-pseudo-parameters": "^2.4.0",
+    "serverless-python-requirements": "^4.3.0"
+  }
+}
