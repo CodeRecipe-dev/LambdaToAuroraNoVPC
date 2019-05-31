@@ -53,3 +53,12 @@ serverless deploy --stage <stage-name> --dbUser <db-user-name>
 ```
 sls invoke -f AuroraCRUD -d '{"body":{"eventType":"createTable"}}' -l --stage <stage-name> --dbUser <db-user-name>
 ```
+
+#### CRUD Operations
+
+```
+sls invoke -f AuroraCRUD -d '{"body":{"eventType":"saveRecord", "recordInfo": {"record_id": 1, "data": "hello"}}}' -l --stage <stage-name> --dbUser <db-user-name>
+sls invoke -f AuroraCRUD -d '{"body":{"eventType":"getRecords"}}' -l --stage <stage-name> --dbUser <db-user-name>
+sls invoke -f AuroraCRUD -d '{"body":{"eventType":"updateRecord", "recordInfo": {"record_id": 1, "data": "world"}}}' -l --stage <stage-name> --dbUser <db-user-name>
+
+```
