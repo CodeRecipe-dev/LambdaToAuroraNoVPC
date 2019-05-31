@@ -5,15 +5,15 @@ More info here:  [https://coderecipe.ai/architectures/77374273](https://codereci
 
 **Problem Statement:**
 
-Traditionally, in order to have lambda talking to RDS one would have to introduce a VPC in between, this is problematic because:
+In the past, in order to have lambda talking to RDS one would have to introduce a VPC in between, this is problematic because:
 
--   VPC cold start time takes seconds!
--   Complexity of setting up and maintaining a VPC is really unnecessary
--   VPC is not free either!
-    
+- VPC cold start time takes seconds!
+- Complexity of setting up and maintaining a VPC is really unnecessary
+- VPC is not free either!
+
 **Solution:**
 
-Using the  [new Data API provided by AWS Aurora (currently still in beta)](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html), an AWS Lambda can directly communicate with the RDS Instance. The Lambda is then connected to an API Gateway to allow user interface.
+Using the [new Data API provided by AWS Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html), an AWS Lambda can directly communicate with the RDS Instance. The Lambda is then connected to an API Gateway to allow user interface.
 
 **Functional Requirements:**
 
@@ -27,37 +27,29 @@ Avoid performance issues caused by VPC configuration.
 
 [How I Build a Scalable Crypto Exchange with AWS and web3.js](https://coderecipe.ai/architectures/95580531)
 
-**Note:**
+### Prerequisites
 
-One note about using the Data API is that the sql query being sent over is taken in as raw input and could potentially introduce SQL injection vulnerability. To avoid this, we have sanitized the inputs using mysql.escape.
+Make sure you have AWS access key and secrete keys setup locally, following this video [here](https://www.youtube.com/watch?v=_f0d2pLJjiA)
 
+### Download the code locally
 
-**Prerequisites**
-
-```
-npm install serverless
-
-export AWS_ACCESS_KEY_ID=<your-key-here>
-
-export AWS_SECRET_ACCESS_KEY=<your-secret-key-here>
-
+```  
+git clone https://github.com/CodeRecipe-dev/LambdaToAuroraNoVPC 
 ```
 
-**Deploy**
+### Deploy to the cloud  
 
 ```
-serverless create --template-url https://github.com/CodeRecipe-dev/LambdaToAuroraNoVPC --path LambdaToAuroraNoVPC
-
 cd LambdaToAuroraNoVPC
 
-npm install
+npm install serverless
 pip install -r requirements.txt
 
-serverless deploy --stage sample --dbUser dbUser
+serverless deploy --stage <stage-name> --dbUser <db-user-name>
 ```
 
-**Create DB - Must be done before using app**
+#### Create DB - Must be done before using app
 
 ```
-sls invoke -f AuroraCRUD -d '{"body":{"eventType":"createTable"}}' -l --stage sample --dbUser dbUser
+sls invoke -f AuroraCRUD -d '{"body":{"eventType":"createTable"}}' -l --stage <stage-name> --dbUser <db-user-name>
 ```
