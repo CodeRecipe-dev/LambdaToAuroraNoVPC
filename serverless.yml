@@ -41,7 +41,7 @@ functions:
     iamRoleStatements:
       - Effect: "Allow"
         Action:
-          - "rds-data:ExecuteSql"
+          - "rds-data:ExecuteStatement"
         Resource: "arn:aws:rds:${self:provider.region}:#{AWS::AccountId}:cluster:#{AuroraCrudDBCluster}"
       - Effect: "Allow"
         Action:
