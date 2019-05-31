@@ -16,7 +16,7 @@ def create_record(databaseName, awsSecretStoreArn, dbClusterOrInstanceArn, recor
 def update_record(databaseName, awsSecretStoreArn, dbClusterOrInstanceArn, record_info):
     parameters = _get_record_id_data_parameters(record_info)
     sqlStatement = 'UPDATE records SET data = :data WHERE record_id = :record_id;'
-    _send_sql_to_rds(databaseName, awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatement)
+    _send_sql_to_rds(databaseName, awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatement, parameters)
 
 def get_records(databaseName, awsSecretStoreArn, dbClusterOrInstanceArn):
     sqlStatement = 'select * from records limit 5'
